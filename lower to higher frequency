@@ -1,0 +1,40 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+bool compare(const pair<int, int> &a, const pair<int, int> &b) {
+    if (a.second == b.second) {
+        return a.first < b.first;
+    }
+    return a.second < b.second;  // Change here: sort by frequency in ascending order
+}
+
+int main() {
+    int a[] = {7, 3, 3, 3, 7, 3, 2, 2, 3, 7};
+    int n = sizeof(a) / sizeof(a[0]);
+
+    unordered_map<int, int> frequency;
+    for (int i = 0; i < n; i++) {
+        frequency[a[i]]++;
+    }
+
+    vector<pair<int, int>> freqVector(frequency.begin(), frequency.end());
+    sort(freqVector.begin(), freqVector.end(), compare);
+
+    int index = 0;
+    for (const auto &p : freqVector) {
+        for (int i = 0; i < p.second; i++) {
+            a[index++] = p.first;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
